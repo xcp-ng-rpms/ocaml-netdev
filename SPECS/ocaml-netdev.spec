@@ -35,11 +35,9 @@ developing applications that use %{name}.
 %autosetup -p1 -n netdev-%{version}
 
 %build
-eval $(opam config env --root=/usr/lib/opamroot)
 make
 
 %install
-eval $(opam config env --root=/usr/lib/opamroot)
 mkdir -p %{buildroot}%{ocaml_libdir}
 mkdir -p %{buildroot}%{ocaml_docdir}
 make install OPAM_PREFIX=%{buildroot}%{ocaml_dir} OPAM_LIBDIR=%{buildroot}%{ocaml_libdir}
