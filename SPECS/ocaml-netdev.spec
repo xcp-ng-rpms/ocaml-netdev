@@ -1,13 +1,17 @@
 %global debug_package %{nil}
 
 Name:           ocaml-netdev
-Version:        1.1.0
-Release:        14%{?dist}
+Version:        1.3.0
+Release:        1%{?dist}
 Summary:        Manipulate Linux bridges, network devices and openvswitch instances in OCaml
 License:        LGPL
 URL:            https://github.com/xapi-project/netdev
-Source0:        https://code.citrite.net/rest/archive/latest/projects/XSU/repos/netdev/archive?at=v%{version}&format=tar.gz&prefix=netdev-%{version}#/netdev-%{version}.tar.gz
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/netdev/archive?at=v1.1.0&format=tar.gz&prefix=netdev-1.1.0#/netdev-1.1.0.tar.gz) = 2de554b4515b6cbc531674a4365dc71e9bd6e267
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XSU/repos/netdev/archive?at=v1.3.0&format=tar.gz&prefix=ocaml-netdev-1.3.0#/netdev-1.3.0.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/netdev/archive?at=v1.3.0&format=tar.gz&prefix=ocaml-netdev-1.3.0#/netdev-1.3.0.tar.gz) = 6a046c9d5e996a56798c2d0b912220a1ba1e617c
+
 BuildRequires:  xs-opam-repo
 BuildRequires:  forkexecd-devel
 
@@ -18,6 +22,7 @@ BuildRequires:  forkexecd-devel
 Manipulate Linux bridges, network devices and openvswitch instances in OCaml.
 
 %package        devel
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XSU/repos/netdev/archive?at=v1.3.0&format=tar.gz&prefix=ocaml-netdev-1.3.0#/netdev-1.3.0.tar.gz) = 6a046c9d5e996a56798c2d0b912220a1ba1e617c
 Summary:        Development files for %{name}
 Requires:       %{name} = %{version}-%{release}
 Requires:       forkexecd-devel%{?_isa}
@@ -27,20 +32,18 @@ Requires:       xs-opam-repo
 The %{name}-devel package contains libraries and signature files for
 developing applications that use %{name}.
 
-%global ocaml_dir /usr/lib/opamroot/system
+%global ocaml_dir /usr/lib/opamroot/ocaml-system
 %global ocaml_libdir %{ocaml_dir}/lib
 %global ocaml_docdir %{ocaml_dir}/doc
 
 %prep
-%autosetup -p1 -n netdev-%{version}
+%autosetup -p1
 
 %build
 make
 
 %install
-mkdir -p %{buildroot}%{ocaml_libdir}
-mkdir -p %{buildroot}%{ocaml_docdir}
-make install OPAM_PREFIX=%{buildroot}%{ocaml_dir} OPAM_LIBDIR=%{buildroot}%{ocaml_libdir}
+make DESTDIR=%{buildroot} install
 
 %files
 %doc ChangeLog
@@ -66,6 +69,12 @@ make install OPAM_PREFIX=%{buildroot}%{ocaml_dir} OPAM_LIBDIR=%{buildroot}%{ocam
 %{ocaml_docdir}/xapi-netdev
 
 %changelog
+* Wed Jan 23 2019 Christian Lindig <christian.lindig@citrix.com> - 1.3.0-1
+- Prepare for Dune 1.6
+
+* Fri Jan 11 2019 Christian Lindig <christian.lindig@citrix.com> - 1.2.0-1
+- Port to dune.
+
 * Wed Apr 04 2018 Marcello Seri <marcello.seri@citrix.com> - 1.1.0-6
 - Update SPEC file to get rid of rpmbuild warnings
 
